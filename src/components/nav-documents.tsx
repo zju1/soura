@@ -1,7 +1,5 @@
 "use client";
 
-import { type LucideIcon } from "lucide-react";
-
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -10,6 +8,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { NavLink } from "react-router-dom";
+import type { RemixiconComponentType } from "@remixicon/react";
 
 export function NavDocuments({
   items,
@@ -17,7 +16,7 @@ export function NavDocuments({
   items: {
     name: string;
     url: string;
-    icon: LucideIcon;
+    icon: RemixiconComponentType;
   }[];
 }) {
   return (
@@ -29,7 +28,7 @@ export function NavDocuments({
             <SidebarMenuButton asChild>
               <NavLink
                 to={item.url}
-                className="!rounded-full aria-[current=page]:bg-stone-100 aria-[current=page]:font-bold"
+                className="!rounded-full  aria-[current=page]:font-semibold"
               >
                 <item.icon />
                 <span>{item.name}</span>

@@ -399,7 +399,7 @@ export default function SupplierDatabase() {
                         variant="ghost"
                         size="sm"
                         onClick={() => setNameFilter("")}
-                        className="h-auto p-0 text-muted-foreground text-xs"
+                        className="py-2 border p-0 text-muted-foreground text-xs block w-full text-center"
                       >
                         Clear
                       </Button>
@@ -453,7 +453,7 @@ export default function SupplierDatabase() {
                           variant="ghost"
                           size="sm"
                           onClick={() => setSelectedCountries([])}
-                          className="h-auto p-0 text-muted-foreground text-xs"
+                          className="py-2 border p-0 text-muted-foreground text-xs block w-full text-center"
                         >
                           Clear selection
                         </Button>
@@ -510,7 +510,7 @@ export default function SupplierDatabase() {
                           variant="ghost"
                           size="sm"
                           onClick={() => setSelectedTags([])}
-                          className="h-auto p-0 text-muted-foreground text-xs"
+                          className="py-2 border p-0 text-muted-foreground text-xs block w-full text-center"
                         >
                           Clear selection
                         </Button>
@@ -587,7 +587,7 @@ export default function SupplierDatabase() {
                             setMinShipments(undefined);
                             setMaxShipments(undefined);
                           }}
-                          className="h-auto p-0 text-muted-foreground text-xs"
+                          className="py-2 border p-0 text-muted-foreground text-xs block w-full text-center"
                         >
                           Clear
                         </Button>
@@ -619,7 +619,7 @@ export default function SupplierDatabase() {
                           variant="ghost"
                           size="sm"
                           onClick={() => setDateRange({})}
-                          className="h-auto p-0 text-muted-foreground text-xs"
+                          className="py-2 border p-0 text-muted-foreground text-xs block w-full text-center"
                         >
                           Clear dates
                         </Button>
@@ -654,7 +654,7 @@ export default function SupplierDatabase() {
                           variant="ghost"
                           size="sm"
                           onClick={() => setClientFilter("")}
-                          className="h-auto p-0 text-muted-foreground text-xs"
+                          className="py-2 border p-0 text-muted-foreground text-xs block w-full text-center"
                         >
                           Clear
                         </Button>
@@ -705,7 +705,7 @@ export default function SupplierDatabase() {
                           variant="ghost"
                           size="sm"
                           onClick={() => setSelectedRiskLevels([])}
-                          className="h-auto p-0 text-muted-foreground text-xs"
+                          className="py-2 border p-0 text-muted-foreground text-xs block w-full text-center"
                         >
                           Clear selection
                         </Button>
@@ -785,7 +785,7 @@ export default function SupplierDatabase() {
                             setMinScore(undefined);
                             setMaxScore(undefined);
                           }}
-                          className="h-auto p-0 text-muted-foreground text-xs"
+                          className="py-2 border p-0 text-muted-foreground text-xs block w-full text-center"
                         >
                           Clear
                         </Button>

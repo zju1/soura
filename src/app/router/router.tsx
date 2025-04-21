@@ -1,5 +1,6 @@
 import BuyersLeadsDatabase from "@/features/BuyersPage";
 import Dashboard from "@/features/Dashboard";
+import { SearchPage } from "@/features/SearchPage";
 import SourcingAgent from "@/features/SourcingAgent";
 import SupplierDatabase from "@/features/SuppliersPage";
 import SupplierView from "@/features/SupplierView";
@@ -32,5 +33,9 @@ export const router = createBrowserRouter([
         element: <SourcingAgent />,
       },
     ],
+  },
+  {
+    path: "/search",
+    element: <SearchPage />,
   },
 ]);

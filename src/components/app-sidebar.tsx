@@ -1,14 +1,4 @@
 import * as React from "react";
-import {
-  BlocksIcon,
-  Building2Icon,
-  HelpCircleIcon,
-  LayoutDashboardIcon,
-  SettingsIcon,
-  Sparkle,
-  SparklesIcon,
-  TruckIcon,
-} from "lucide-react";
 
 import { NavDocuments } from "@/components/nav-documents";
 import { NavMain } from "@/components/nav-main";
@@ -22,6 +12,15 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { NavLink } from "react-router-dom";
+import {
+  RiApps2Line,
+  RiBarChartLine,
+  RiBox1Line,
+  RiBuilding2Line,
+  RiQuestionLine,
+  RiSettingsLine,
+  RiBardLine,
+} from "@remixicon/react";
 
 const data = {
   user: {
@@ -33,41 +32,41 @@ const data = {
     {
       title: "Dashboard",
       url: "/",
-      icon: LayoutDashboardIcon,
+      icon: RiBarChartLine,
     },
     {
       title: "Saved suppliers",
       url: "/suppliers",
-      icon: TruckIcon,
+      icon: RiBox1Line,
     },
     {
       title: "Saved buyers",
       url: "/buyers",
-      icon: Building2Icon,
+      icon: RiBuilding2Line,
     },
   ],
   navSecondary: [
     {
       title: "Settings",
       url: "/settings",
-      icon: SettingsIcon,
+      icon: RiSettingsLine,
     },
     {
       title: "Get Help",
       url: "/help",
-      icon: HelpCircleIcon,
+      icon: RiQuestionLine,
     },
   ],
   documents: [
     {
       name: "AI Sourcing agent",
       url: "/ai-sourcing-agent",
-      icon: SparklesIcon,
+      icon: RiBardLine,
     },
     {
       name: "Integrations",
       url: "/integrations",
-      icon: BlocksIcon,
+      icon: RiApps2Line,
     },
   ],
 };
@@ -75,7 +74,7 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="offcanvas" {...props}>
-      <SidebarHeader className="border-b border-b-stone-300">
+      <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
@@ -83,8 +82,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
               <NavLink to="/">
-                <Sparkle className="size-12" />
-                <span className="text-base font-semibold">SourA | Agents</span>
+                <RiBardLine className="size-12" />
+                <span className="text-base font-semibold">Sourcing Agent</span>
               </NavLink>
             </SidebarMenuButton>
           </SidebarMenuItem>

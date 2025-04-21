@@ -1,4 +1,3 @@
-import { SearchIcon, type LucideIcon } from "lucide-react";
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -7,6 +6,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { NavLink, useNavigate } from "react-router-dom";
+import { RiSearchLine, type RemixiconComponentType } from "@remixicon/react";
 
 export function NavMain({
   items,
@@ -14,7 +14,7 @@ export function NavMain({
   items: {
     title: string;
     url: string;
-    icon?: LucideIcon;
+    icon?: RemixiconComponentType;
   }[];
 }) {
   const navigate = useNavigate();
@@ -27,9 +27,9 @@ export function NavMain({
             <SidebarMenuButton
               onClick={() => navigate("/search")}
               tooltip="Search"
-              className="min-w-8  !text-white duration-200 ease-linear bg-gradient-to-b from-stone-500 rounded-full to-black justify-center text-center"
+              className="!text-stone-600 font-semibold shadow duration-200 ease-linear bg-white text-center"
             >
-              <SearchIcon />
+              <RiSearchLine />
               <span>Search</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -40,7 +40,7 @@ export function NavMain({
               <SidebarMenuButton tooltip={item.title} asChild>
                 <NavLink
                   to={item.url}
-                  className="!rounded-full aria-[current=page]:bg-stone-100  aria-[current=page]:font-bold"
+                  className="!rounded-full aria-[current=page]:font-semibold"
                 >
                   {item.icon && <item.icon />}
                   <span>{item.title}</span>

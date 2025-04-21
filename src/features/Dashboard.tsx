@@ -90,8 +90,8 @@ function OverviewTab() {
   ];
 
   return (
-    <div className="space-y-6">
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+    <div className="space-y-4">
+      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
         {statCardsData.map((stat, index) => (
           <StatCard
             key={index}
@@ -104,7 +104,7 @@ function OverviewTab() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
-        <Card>
+        <Card className="shadow-none">
           <CardHeader className="pb-2">
             <CardTitle className="text-base">
               Supplier Risk Distribution
@@ -115,7 +115,7 @@ function OverviewTab() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="shadow-none">
           <CardHeader className="pb-2">
             <CardTitle className="text-base">
               Active Sourcing Requests
@@ -128,7 +128,7 @@ function OverviewTab() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
-        <Card>
+        <Card className="shadow-none">
           <CardHeader className="pb-2">
             <CardTitle className="text-base">Geopolitical Risk Map</CardTitle>
           </CardHeader>
@@ -137,7 +137,7 @@ function OverviewTab() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="shadow-none">
           <CardHeader className="pb-2">
             <CardTitle className="text-base">Tariff Trends</CardTitle>
           </CardHeader>
@@ -155,7 +155,7 @@ function RiskMonitoringTab() {
   return (
     <div className="space-y-6">
       <div className="grid gap-4 md:grid-cols-3">
-        <Card>
+        <Card className="shadow-none">
           <CardHeader className="pb-2">
             <CardTitle className="text-base">
               Countries with Rising Risk
@@ -166,7 +166,7 @@ function RiskMonitoringTab() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="shadow-none">
           <CardHeader className="pb-2">
             <CardTitle className="text-base">
               Suppliers with Falling Shipments
@@ -177,7 +177,7 @@ function RiskMonitoringTab() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="shadow-none">
           <CardHeader className="pb-2">
             <CardTitle className="text-base">
               Products Affected by Tariffs
@@ -189,12 +189,9 @@ function RiskMonitoringTab() {
         </Card>
       </div>
 
-      <Card>
+      <Card className="shadow-none">
         <CardHeader className="pb-2">
           <CardTitle className="text-base">Risk Factors by Region</CardTitle>
-          <p className="text-sm text-muted-foreground">
-            Detailed breakdown of risk factors across supplier regions
-          </p>
         </CardHeader>
         <CardContent>
           <RiskFactorsByRegion />
@@ -218,13 +215,13 @@ function StatCard({ title, value, change, data }: StatCardProps) {
   const gradientId = `gradient-${title.replace(/\s+/g, "-").toLowerCase()}`;
 
   return (
-    <Card className="overflow-hidden">
+    <Card className="overflow-hidden shadow-none">
       <CardHeader className="flex flex-row items-center justify-between pb-2 pt-4 px-4">
         <CardTitle className="text-sm font-medium">{title}</CardTitle>
       </CardHeader>
-      <CardContent className="px-4 pb-4 pt-0">
-        <div className="text-2xl font-bold">{value}</div>
-        <div className="flex items-center text-sm text-muted-foreground mb-3">
+      <CardContent className="px-4 pb-0 pt-0">
+        <div className="text-xl font-bold">{value}</div>
+        <div className="flex items-center text-sm text-muted-foreground">
           {isPositive ? (
             <ArrowUpIcon className="mr-1 h-4 w-4 text-green-500" />
           ) : (
@@ -283,25 +280,19 @@ function StatCard({ title, value, change, data }: StatCardProps) {
 // Supplier Risk Distribution Component - Now using Bar Chart
 function SupplierRiskDistribution() {
   const data = [
-    { name: "Low Risk", value: 120, color: "#22c55e" },
-    { name: "Medium Risk", value: 91, color: "#f59e0b" },
-    { name: "High Risk", value: 32, color: "#ef4444" },
+    { name: "Low", value: 120, color: "#22c55e" },
+    { name: "Medium", value: 91, color: "#f59e0b" },
+    { name: "High", value: 32, color: "#ef4444" },
   ];
 
   return (
-    <div className="h-[200px]">
+    <div className="h-[150px]">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
           data={data}
           layout="vertical"
           margin={{ top: 10, right: 30, left: 20, bottom: 10 }}
         >
-          <CartesianGrid
-            strokeDasharray="3 3"
-            horizontal={true}
-            vertical={false}
-            stroke="#e5e7eb"
-          />
           <XAxis
             type="number"
             axisLine={false}
@@ -370,16 +361,16 @@ function ActiveSourcingRequests() {
       {requests.map((request, index) => (
         <div key={index} className="space-y-2">
           <div className="flex justify-between items-center">
-            <div>
-              <h3 className="text-sm font-medium">{request.name}</h3>
-              <div className="flex items-center text-sm text-muted-foreground">
+            <div className="gap-1 grid">
+              <h3 className="text-xs font-medium">{request.name}</h3>
+              <div className="flex items-center text-xs text-muted-foreground">
                 <CalendarIcon className="mr-1 h-3.5 w-3.5" />
                 Due {request.dueDate}
               </div>
             </div>
-            <div className="text-right">
-              <div className="text-sm font-medium">{request.stage}</div>
-              <div className="text-sm text-muted-foreground">
+            <div className="text-right grid gap-1">
+              <div className="text-xs font-medium">{request.stage}</div>
+              <div className="text-xs text-muted-foreground">
                 {request.progress}%
               </div>
             </div>
@@ -719,9 +710,9 @@ function RiskFactorsByRegion() {
   };
 
   return (
-    <div className="rounded-md border">
-      <Table>
-        <TableHeader>
+    <div className="rounded-md ">
+      <Table className="!bg-transparent !border-none">
+        <TableHeader className="!border-none">
           <TableRow>
             <TableHead className="text-sm">Supplier/Country</TableHead>
             <TableHead className="text-sm">Risk Level</TableHead>
@@ -729,7 +720,7 @@ function RiskFactorsByRegion() {
             <TableHead className="text-sm">Notes</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>
+        <TableBody className="!bg-transparent !border-none">
           {riskData.map((row, index) => (
             <TableRow key={index}>
               <TableCell className="py-3 text-sm font-medium">

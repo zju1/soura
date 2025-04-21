@@ -5,15 +5,14 @@ import type React from "react";
 import { useState, useRef, useEffect } from "react";
 import {
   Search,
-  Mic,
   ArrowRight,
-  Send,
   AlertTriangle,
   Truck,
   TrendingUp,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { RiMicFill, RiSearchLine, RiSendPlaneFill } from "@remixicon/react";
 
 // Update the component to include suggested queries
 export default function SourcingAgent() {
@@ -127,10 +126,10 @@ export default function SourcingAgent() {
   return (
     <div className="h-[80%] flex items-center">
       <div className="w-full max-w-3xl mx-auto my-4 px-4 relative grid gap-4">
-        <h1 className="text-center text-2xl font-black text-stone-700">
+        <h1 className="text-center text-xl font-medium text-stone-700">
           What do we search today?
         </h1>
-        <div className="bg-stone-100 rounded-xl border shadow-sm p-4">
+        <div className="bg-stone-100 rounded-xl border border-stone-300 shadow-md p-4">
           <form onSubmit={handleSearch} className="relative">
             <Input
               ref={inputRef}
@@ -153,7 +152,7 @@ export default function SourcingAgent() {
                   }`}
                   onClick={() => setSearchMode("search")}
                 >
-                  <Search className="h-4 w-4" />
+                  <RiSearchLine className="h-4 w-4" />
                   Search
                 </Button>
                 <Button
@@ -181,14 +180,14 @@ export default function SourcingAgent() {
                       : "bg-stone-600"
                   }`}
                 >
-                  <Mic className="h-5 w-5" />
+                  <RiMicFill className="h-5 w-5" />
                 </Button>
                 <Button
                   type="button"
                   size="icon"
-                  className={`rounded-full h-9 w-9 bg-stone-600 hover:bg-teal-700"`}
+                  className={`rounded-full h-9 w-9 bg-emerald-500 hover:bg-teal-700"`}
                 >
-                  <Send className="h-5 w-5 text-white" />
+                  <RiSendPlaneFill className="h-5 w-5 text-white" />
                 </Button>
               </div>
             </div>
@@ -222,7 +221,7 @@ export default function SourcingAgent() {
             )}
           </form>
         </div>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-3 gap-4 mt-4">
           <InfoCard
             icon={AlertTriangle}
             title="New EU tariffs impact textiles"

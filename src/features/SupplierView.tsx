@@ -153,7 +153,7 @@ export default function SupplierView() {
 
   return (
     <div className="p-2 lg:p-8">
-      <div className="bg-white rounded-lg border shadow-sm p-6 mb-6">
+      <div className="bg-white rounded-lg  shadow-sm mb-6">
         <div className="flex flex-col md:flex-row justify-between gap-4 mb-6">
           <div>
             <div className="flex items-center gap-2 mb-2">
@@ -166,7 +166,7 @@ export default function SupplierView() {
               </div>
             </div>
 
-            <div className="space-y-2 text-sm">
+            <div className="space-y-2 text-xs text-stone-500">
               <div className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-muted-foreground mt-0.5 flex-shrink-0" />
                 <span>{supplierData.address}</span>
@@ -240,7 +240,7 @@ export default function SupplierView() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Card className="p-4 flex items-center gap-3">
+          <Card className="p-4 flex items-center gap-3 shadow-none rounded-lg">
             <div className="bg-blue-50 p-2 rounded-full">
               <Ship className="w-5 h-5 text-blue-500" />
             </div>
@@ -254,7 +254,7 @@ export default function SupplierView() {
             </div>
           </Card>
 
-          <Card className="p-4 flex items-center gap-3">
+          <Card className="p-4 flex items-center gap-3 shadow-none rounded-lg">
             <div className="bg-green-50 p-2 rounded-full">
               <Package className="w-5 h-5 text-green-500" />
             </div>
@@ -268,7 +268,7 @@ export default function SupplierView() {
             </div>
           </Card>
 
-          <Card className="p-4 flex items-center gap-3">
+          <Card className="p-4 flex items-center gap-3 shadow-none rounded-lg">
             <div className="bg-purple-50 p-2 rounded-full">
               <BarChart3 className="w-5 h-5 text-purple-500" />
             </div>
@@ -282,7 +282,7 @@ export default function SupplierView() {
             </div>
           </Card>
 
-          <Card className="p-4 flex items-center gap-3">
+          <Card className="p-4 flex items-center gap-3 shadow-none rounded-lg">
             <div className="bg-amber-50 p-2 rounded-full">
               <DollarSign className="w-5 h-5 text-amber-500" />
             </div>
@@ -312,7 +312,7 @@ export default function SupplierView() {
 
         <TabsContent value="overview" className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="p-6">
+            <Card className="p-6 shadow-none rounded-lg">
               <h3 className="text-lg font-semibold mb-4">
                 Company Information
               </h3>
@@ -358,7 +358,7 @@ export default function SupplierView() {
               </div>
             </Card>
 
-            <Card className="p-6">
+            <Card className="p-6 shadow-none rounded-lg">
               <h3 className="text-lg font-semibold mb-4">Shipping Metrics</h3>
               <div className="space-y-3">
                 <div className="grid grid-cols-3 gap-2">
@@ -397,7 +397,7 @@ export default function SupplierView() {
               </div>
             </Card>
 
-            <Card className="p-6 md:col-span-2">
+            <Card className="p-6 md:col-span-2 shadow-none rounded-lg">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold">Recent Shipments</h3>
                 <Button variant="outline" size="sm">
@@ -467,7 +467,7 @@ export default function SupplierView() {
               </div>
             </Card>
 
-            <Card className="p-6 md:col-span-2">
+            <Card className="p-6 md:col-span-2 shadow-none rounded-lg">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold">Top Suppliers</h3>
                 <Button variant="outline" size="sm">
@@ -548,7 +548,7 @@ export default function SupplierView() {
         </TabsContent>
 
         <TabsContent value="shipments" className="space-y-6">
-          <Card className="p-6">
+          <Card className="p-6 shadow-none rounded-lg">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold">All Shipments</h3>
               <div className="flex items-center gap-2">
@@ -636,7 +636,7 @@ export default function SupplierView() {
         </TabsContent>
 
         <TabsContent value="suppliers" className="space-y-6">
-          <Card className="p-6">
+          <Card className="p-6 shadow-none rounded-lg">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold">All Suppliers</h3>
               <div className="flex items-center gap-2">

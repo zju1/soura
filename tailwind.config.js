@@ -13,6 +13,9 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       colors: {
+        stone: {
+          200: "#F3F3EE",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
