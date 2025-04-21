@@ -13,6 +13,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { RiMicFill, RiSearchLine, RiSendPlaneFill } from "@remixicon/react";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 // Update the component to include suggested queries
 export default function SourcingAgent() {
@@ -23,6 +25,7 @@ export default function SourcingAgent() {
   const inputRef = useRef<HTMLInputElement>(null);
   const suggestionsRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<any | null>(null);
+  const navigate = useNavigate();
 
   // Sample suggested queries
   const suggestedQueries = [
@@ -129,98 +132,101 @@ export default function SourcingAgent() {
         <h1 className="text-center text-xl font-medium text-stone-700">
           What do we search today?
         </h1>
-        <div className="bg-stone-100 rounded-xl border border-stone-300 shadow-md p-4">
-          <form onSubmit={handleSearch} className="relative">
-            <Input
-              ref={inputRef}
-              placeholder={isListening ? "Listening..." : "Ask anything..."}
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              onFocus={() => setIsFocused(true)}
-              className="border-0 focus-visible:ring-0 shadow-none focus-visible:ring-offset-0 text-base"
-            />
+        <motion.div layoutId="chatbox">
+          <div className="bg-stone-100 rounded-xl border border-stone-300 shadow-md p-4">
+            <form onSubmit={handleSearch} className="relative">
+              <Input
+                ref={inputRef}
+                placeholder={isListening ? "Listening..." : "Ask anything..."}
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onFocus={() => setIsFocused(true)}
+                className="border-0 focus-visible:ring-0 shadow-none focus-visible:ring-offset-0 text-base"
+              />
 
-            <div className="flex items-center justify-between mt-3">
-              <div className="flex bg-gray-200 rounded-lg p-1">
-                <Button
-                  type="button"
-                  size="sm"
-                  className={`bg-transparent shadow-none text-gray-400 ${
-                    searchMode === "search"
-                      ? "!bg-white shadow-md hover:!bg-white"
-                      : "hover:!bg-transparent"
-                  }`}
-                  onClick={() => setSearchMode("search")}
-                >
-                  <RiSearchLine className="h-4 w-4" />
-                  Search
-                </Button>
-                <Button
-                  type="button"
-                  size="sm"
-                  className={`bg-transparent shadow-none text-gray-400 ${
-                    searchMode === "sourcing"
-                      ? "!bg-white shadow-md hover:!bg-white"
-                      : "hover:!bg-transparent"
-                  }`}
-                  onClick={() => setSearchMode("sourcing")}
-                >
-                  Sourcing research
-                </Button>
-              </div>
+              <div className="flex items-center justify-between mt-3">
+                <div className="flex bg-gray-200 rounded-lg p-1">
+                  <Button
+                    type="button"
+                    size="sm"
+                    className={`bg-transparent shadow-none text-gray-400 ${
+                      searchMode === "search"
+                        ? "!bg-white shadow-md hover:!bg-white"
+                        : "hover:!bg-transparent"
+                    }`}
+                    onClick={() => setSearchMode("search")}
+                  >
+                    <RiSearchLine className="h-4 w-4" />
+                    Search
+                  </Button>
+                  <Button
+                    type="button"
+                    size="sm"
+                    className={`bg-transparent shadow-none text-gray-400 ${
+                      searchMode === "sourcing"
+                        ? "!bg-white shadow-md hover:!bg-white"
+                        : "hover:!bg-transparent"
+                    }`}
+                    onClick={() => setSearchMode("sourcing")}
+                  >
+                    Sourcing research
+                  </Button>
+                </div>
 
-              <div className="flex items-center gap-2">
-                <Button
-                  type="button"
-                  size="icon"
-                  onClick={toggleVoiceRecognition}
-                  className={`rounded-full h-9 w-9 ${
-                    isListening
-                      ? "bg-red-500 hover:bg-red-600 animate-pulse"
-                      : "bg-stone-600"
-                  }`}
-                >
-                  <RiMicFill className="h-5 w-5" />
-                </Button>
-                <Button
-                  type="button"
-                  size="icon"
-                  className={`rounded-full h-9 w-9 bg-emerald-500 hover:bg-teal-700"`}
-                >
-                  <RiSendPlaneFill className="h-5 w-5 text-white" />
-                </Button>
+                <div className="flex items-center gap-2">
+                  <Button
+                    type="button"
+                    size="icon"
+                    onClick={toggleVoiceRecognition}
+                    className={`rounded-full h-9 w-9 ${
+                      isListening
+                        ? "bg-red-500 hover:bg-red-600 animate-pulse"
+                        : "bg-stone-600"
+                    }`}
+                  >
+                    <RiMicFill className="h-5 w-5" />
+                  </Button>
+                  <Button
+                    type="button"
+                    size="icon"
+                    onClick={() => navigate("/ai-sourcing-agent/query")}
+                    className={`rounded-full h-9 w-9 bg-emerald-500 hover:bg-teal-700"`}
+                  >
+                    <RiSendPlaneFill className="h-5 w-5 text-white" />
+                  </Button>
+                </div>
               </div>
-            </div>
-            {/* Suggested queries */}
-            {isFocused && (
-              <div
-                ref={suggestionsRef}
-                className="absolute -left-5 top-[calc(100%+1.5rem)] -right-5 mt-2 bg-white rounded-lg border shadow-md p-3 z-10"
-              >
-                <h3 className="text-sm font-medium text-gray-500 mb-2">
-                  Suggested queries
-                </h3>
-                <ul className="space-y-2">
-                  {suggestedQueries.map((suggestion, index) => (
-                    <li key={index}>
-                      <button
-                        type="button"
-                        onClick={() => handleSuggestionClick(suggestion)}
-                        className="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 flex items-center justify-between group"
-                      >
-                        <div className="flex items-center">
-                          <Search className="h-4 w-4 text-gray-400 mr-2" />
-                          <span>{suggestion}</span>
-                        </div>
-                        <ArrowRight className="h-4 w-4 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity" />
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </form>
-        </div>
+              {/* Suggested queries */}
+              {isFocused && (
+                <div
+                  ref={suggestionsRef}
+                  className="absolute -left-5 top-[calc(100%+1.5rem)] -right-5 mt-2 bg-white rounded-lg border shadow-md p-3 z-10"
+                >
+                  <h3 className="text-sm font-medium text-gray-500 mb-2">
+                    Suggested queries
+                  </h3>
+                  <ul className="space-y-2">
+                    {suggestedQueries.map((suggestion, index) => (
+                      <li key={index}>
+                        <button
+                          type="button"
+                          onClick={() => handleSuggestionClick(suggestion)}
+                          className="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 flex items-center justify-between group"
+                        >
+                          <div className="flex items-center">
+                            <Search className="h-4 w-4 text-gray-400 mr-2" />
+                            <span>{suggestion}</span>
+                          </div>
+                          <ArrowRight className="h-4 w-4 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </form>
+          </div>
+        </motion.div>
         <div className="grid grid-cols-3 gap-4 mt-4">
           <InfoCard
             icon={AlertTriangle}

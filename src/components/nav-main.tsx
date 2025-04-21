@@ -27,7 +27,7 @@ export function NavMain({
             <SidebarMenuButton
               onClick={() => navigate("/search")}
               tooltip="Search"
-              className="!text-stone-600 font-semibold shadow duration-200 ease-linear bg-white text-center"
+              className="!text-stone-600 font-semibold border border-stone-300 duration-200 ease-linear bg-white text-center justify-center"
             >
               <RiSearchLine />
               <span>Search</span>
