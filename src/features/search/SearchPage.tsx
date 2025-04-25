@@ -1,4 +1,4 @@
-import { RiBardFill, RiMicLine } from "@remixicon/react";
+import { RiMicLine } from "@remixicon/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search } from "lucide-react";
@@ -18,19 +18,11 @@ export function SearchPage() {
 
   return (
     <div className="flex flex-col items-center h-full bg-white">
-      {/* Main Content */}
       <main className="flex-1 flex flex-col items-center justify-center w-full max-w-2xl mx-auto px-4 -mt-20">
-        {/* Logo */}
         <div className="mb-8 flex flex-col items-center">
-          <div className="flex items-center justify-center mb-4">
-            <RiBardFill className="size-10 text-stone-500" />
-          </div>
-          <h1 className="text-3xl font-normal text-gray-800 tracking-tight">
-            Sourcing Agent
-          </h1>
+          <img src="/logo.svg" alt="" />
         </div>
 
-        {/* Search Bar */}
         <motion.div layoutId="searchbar" className="w-full max-w-[584px]">
           <div className="relative w-full">
             <div
@@ -56,7 +48,6 @@ export function SearchPage() {
               </button>
             </div>
 
-            {/* Suggestions Dropdown */}
             {focused && (
               <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 shadow-lg rounded-2xl w-full max-h-[300px] overflow-y-auto z-10">
                 <ul className="list-none py-2">
@@ -76,7 +67,6 @@ export function SearchPage() {
           </div>
         </motion.div>
 
-        {/* Search Buttons */}
         <div className="mt-8 flex gap-4">
           <button
             className="bg-gray-50 hover:bg-gray-100 text-gray-800 font-normal py-2 px-4 rounded-md text-sm"

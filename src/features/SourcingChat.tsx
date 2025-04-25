@@ -1,165 +1,140 @@
+import {
+  useGetMessagesByChatIdQuery,
+  useSendMessageMutation,
+} from "@/app/store/services/chat.service";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { RiMicFill, RiSearchLine, RiSendPlaneFill } from "@remixicon/react";
-import { motion } from "framer-motion";
-import { Search, Globe, BookOpen, ArrowUpRight } from "lucide-react";
-import { useState } from "react";
+import { /*  RiSearchLine,  */ RiSendPlaneFill } from "@remixicon/react";
+// import { Search, Globe, BookOpen } from "lucide-react";
+import Markdown from "react-markdown";
+import { useCallback /* useState */, useEffect, useRef, useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
+import remarkGfm from "remark-gfm";
+import MermaidChart from "@/components/MermaidWrapper";
+import { Loader } from "lucide-react";
 
-export function SourcingQuery() {
-  const [searchMode, setSearchMode] = useState<"search" | "sourcing">("search");
+export interface IChat {
+  userId: string;
+  createdAt: string;
+  title: string;
+  _id: string;
+}
+
+const extractMermaid = (markdown: string) => {
+  const match = markdown.match(/```mermaid\n([\s\S]+?)```/);
+  return match ? match[1].trim() : null;
+};
+
+const stripMermaid = (markdown: string) => {
+  return markdown.replace(/```mermaid\n([\s\S]+?)```/, "");
+};
+
+export interface SingleMessage {
+  chatId: string;
+  content: string;
+  createdAt: string;
+  sender: "user" | "assistant";
+  updatedAt: string;
+  _id: string;
+}
+
+function AIMessage({ content }: { content: string }) {
+  const chartCode = extractMermaid(content);
+  const markdownWithoutMermaid = stripMermaid(content);
+
   return (
     <>
-      <div className="max-w-3xl mx-auto px-4 py-8 flex flex-col">
-        {/* Query Display */}
-        <h1 className="text-2xl font-medium text-gray-800 mb-6">
-          What are the tariff rates from China?
-        </h1>
+      <Markdown remarkPlugins={[remarkGfm]}>{markdownWithoutMermaid}</Markdown>
+      {chartCode && <MermaidChart definition={chartCode} />}
+    </>
+  );
+}
 
-        {/* Navigation Tabs */}
-        <div className="flex border-b border-gray-200 mb-6">
-          <button className="flex items-center gap-2 px-4 py-2 text-stone-600 border-b-2 border-stone-600 font-medium">
-            <Search className="h-4 w-4" />
-            <span>Search</span>
-          </button>
-          <button className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-gray-800">
-            <Globe className="h-4 w-4" />
-            <span>Sources</span>
-            <span className="bg-gray-100 text-gray-700 rounded-full text-xs px-1.5 py-0.5 ml-1">
-              8
-            </span>
-          </button>
-          <div className="ml-auto flex items-center">
-            <button className="flex items-center gap-1 text-gray-600 text-sm">
-              <span>1 task</span>
-              <ArrowUpRight className="h-3.5 w-3.5" />
-            </button>
-          </div>
-        </div>
+export function SourcingChat() {
+  // const [searchMode, setSearchMode] = useState<"search" | "sourcing">("search");
+  const { state } = useLocation();
+  const { chatId } = useParams<{ chatId: string }>();
+  const [message, setMessage] = useState<string>("");
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
-        {/* Source Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-8">
-          <div className="bg-stone-200 rounded-lg p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-stone-600 bg-stone-50 p-1 rounded">
-                <Search className="h-4 w-4" />
-              </span>
-              <span className="text-sm text-gray-600">authbridge.com</span>
+  const [send, { isLoading }] = useSendMessageMutation();
+
+  const { data } = useGetMessagesByChatIdQuery(chatId as string, {
+    skip: !chatId,
+    refetchOnMountOrArgChange: true,
+    refetchOnFocus: true,
+  });
+
+  const sendMessage = useCallback(
+    async (msg: string) => {
+      if (msg.length > 3) {
+        setMessage("");
+        await send({
+          chatId: chatId as string,
+          content: msg,
+        }).unwrap();
+        setTimeout(() => {
+          if (wrapperRef.current) {
+            wrapperRef.current.scrollTop = wrapperRef.current.scrollHeight;
+          }
+        }, 500);
+      }
+    },
+    [send, chatId]
+  );
+
+  useEffect(() => {
+    if (state?.q && state?.q.length > 3) {
+      sendMessage(state.q);
+    }
+  }, [sendMessage, state?.q]);
+
+  return (
+    <div className="h-full grid grid-rows-[1fr_auto] relative">
+      <div
+        className="flex flex-col justify-start overflow-y-auto relative py-4"
+        ref={wrapperRef}
+      >
+        {data?.map((item) =>
+          item.sender === "user" ? (
+            <div
+              key={item._id}
+              className="font-mediump-4 pb-2  max-w-3xl w-full mx-auto flex justify-end"
+            >
+              <p className="bg-stone-900 text-stone-200 p-4 rounded-3xl rounded-br-none">
+                {item.content}
+              </p>
             </div>
-            <p className="text-sm font-medium">
-              What is a Supplier? Roles, Types, and Benefits
-            </p>
-          </div>
-
-          <div className="bg-stone-200 rounded-lg p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-gray-600 bg-gray-100 p-1 rounded">
-                <Globe className="h-4 w-4" />
-              </span>
-              <span className="text-sm text-gray-600">
-                Wikimedia Foundation, I...
-              </span>
+          ) : (
+            <div
+              key={item._id}
+              className="ai-content max-w-3xl mx-auto w-full pl-2 flex flex-col items-start justify-start py-8"
+            >
+              <div className="bg-stone-200 p-4 rounded-3xl  rounded-bl-none border border-stone-300">
+                <AIMessage content={item.content} />
+              </div>
             </div>
-            <p className="text-sm font-medium">Supplier - Wikipedia</p>
-          </div>
-
-          <div className="bg-stone-200 rounded-lg p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-stone-700 bg-stone-50 p-1 rounded-full">
-                <BookOpen className="h-4 w-4" />
-              </span>
-              <span className="text-sm text-gray-600">
-                dictionary.cambridge
-              </span>
-            </div>
-            <p className="text-sm font-medium">supplier</p>
-            <p className="text-xs text-gray-500 mt-1">+5 sources</p>
-          </div>
-        </div>
-
-        {/* Main Content */}
-        <div className="mb-8">
-          <h2 className="text-xl font-medium text-gray-800 mb-4">
-            Supplier: Definition, Roles, and Importance
-          </h2>
-
-          <p className="mb-4 text-gray-700">
-            A <span className="font-medium">supplier</span> is an individual,
-            company, or organization that provides goods, services, or raw
-            materials to another business, most often serving as a crucial link
-            in the supply chain between manufacturers and retailers{" "}
-            <span className="text-xs bg-gray-100 px-1 rounded">1</span>{" "}
-            <span className="text-xs bg-gray-100 px-1 rounded">4</span>{" "}
-            <span className="text-xs bg-gray-100 px-1 rounded">5</span>{" "}
-            <span className="text-xs bg-gray-100 px-1 rounded">6</span>.
-            Suppliers ensure that businesses have the necessary inputs to
-            produce finished goods or offer services to end consumers, playing a
-            pivotal role in industries such as manufacturing, retail, and
-            construction{" "}
-            <span className="text-xs bg-gray-100 px-1 rounded">1</span>{" "}
-            <span className="text-xs bg-gray-100 px-1 rounded">5</span>.
-          </p>
-
-          <h3 className="text-lg font-medium text-gray-800 mb-3">
-            Roles of a Supplier
-          </h3>
-
-          <ul className="space-y-4 list-disc pl-5 text-gray-700">
-            <li>
-              <span className="font-medium">
-                Provision of Goods and Services:
-              </span>{" "}
-              Suppliers deliver raw materials, components, or finished products
-              required by businesses for their operations{" "}
-              <span className="text-xs bg-gray-100 px-1 rounded">1</span>{" "}
-              <span className="text-xs bg-gray-100 px-1 rounded">5</span>.
-            </li>
-            <li>
-              <span className="font-medium">Intermediary Function:</span> They
-              often act as intermediaries between manufacturers and retailers,
-              ensuring smooth communication and sufficient stock levels{" "}
-              <span className="text-xs bg-gray-100 px-1 rounded">5</span>{" "}
-              <span className="text-xs bg-gray-100 px-1 rounded">6</span>.
-            </li>
-            <li>
-              <span className="font-medium">Quality Assurance:</span> Suppliers
-              are responsible for maintaining the quality of the goods or
-              materials they provide, which directly impacts the final product{" "}
-              <span className="text-xs bg-gray-100 px-1 rounded">1</span>{" "}
-              <span className="text-xs bg-gray-100 px-1 rounded">5</span>.
-            </li>
-            <li>
-              <span className="font-medium">Inventory Management:</span> They
-              help businesses manage inventory efficiently by delivering
-              products as needed{" "}
-              <span className="text-xs bg-gray-100 px-1 rounded">1</span>.
-            </li>
-            <li>
-              <span className="font-medium">Cost Control:</span> By negotiating
-              prices and terms, suppliers can help businesses control costs and
-              improve profitability{" "}
-              <span className="text-xs bg-gray-100 px-1 rounded">1</span>{" "}
-              <span className="text-xs bg-gray-100 px-1 rounded">6</span>.
-            </li>
-            <li>
-              <span className="font-medium">Logistics Support:</span> Suppliers
-              play a role in the timely delivery and transportation of goods,
-              ensuring that businesses can meet their production schedules and
-              customer demands.
-            </li>
-          </ul>
-        </div>
+          )
+        )}
       </div>
-      <div className="sticky bottom-0 p-4 bg-white max-w-3xl mx-auto">
-        <motion.div layoutId="chatbox">
-          <div className="bg-stone-100 rounded-xl border border-stone-300 shadow-md p-4">
-            <form className="relative">
-              <Input
-                placeholder={"Ask anything..."}
-                className="border-0 focus-visible:ring-0 shadow-none focus-visible:ring-offset-0 text-base"
-              />
+      <div className="py-4 bg-white max-w-3xl mx-auto w-full">
+        <div className="bg-stone-100 rounded-xl border border-stone-300 shadow-md p-4">
+          <form
+            className="relative"
+            onSubmit={(event) => {
+              event.preventDefault();
+              sendMessage(message);
+            }}
+          >
+            <Input
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder={"Ask anything..."}
+              className="border-0 focus-visible:ring-0 shadow-none focus-visible:ring-offset-0 text-base !bg-transparent"
+            />
 
-              <div className="flex items-center justify-between mt-3">
-                <div className="flex bg-gray-200 rounded-lg p-1">
+            <div className="flex items-center justify-end mt-3">
+              {/* <div className="flex bg-gray-200 rounded-lg p-1">
                   <Button
                     type="button"
                     size="sm"
@@ -185,29 +160,29 @@ export function SourcingQuery() {
                   >
                     Sourcing research
                   </Button>
-                </div>
+                </div> */}
 
-                <div className="flex items-center gap-2">
-                  <Button
-                    type="button"
-                    size="icon"
-                    className={`rounded-full h-9 w-9"bg-stone-600`}
-                  >
-                    <RiMicFill className="h-5 w-5" />
-                  </Button>
-                  <Button
-                    type="button"
-                    size="icon"
-                    className={`rounded-full h-9 w-9 bg-emerald-500 hover:bg-teal-700"`}
-                  >
+              <div className="flex items-center gap-2">
+                <Button
+                  type="button"
+                  size="icon"
+                  disabled={isLoading}
+                  onClick={() => {
+                    sendMessage(message);
+                  }}
+                  className={`rounded-full h-9 w-9 bg-emerald-500 hover:bg-teal-700"`}
+                >
+                  {!isLoading ? (
                     <RiSendPlaneFill className="h-5 w-5 text-white" />
-                  </Button>
-                </div>
+                  ) : (
+                    <Loader className="animate-spin size-5 text-white" />
+                  )}
+                </Button>
               </div>
-            </form>
-          </div>
-        </motion.div>
+            </div>
+          </form>
+        </div>
       </div>
-    </>
+    </div>
   );
 }

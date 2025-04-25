@@ -13,13 +13,11 @@ import {
 } from "@/components/ui/sidebar";
 import { NavLink } from "react-router-dom";
 import {
-  RiApps2Line,
   RiBarChartLine,
   RiBox1Line,
-  RiBuilding2Line,
   RiQuestionLine,
   RiSettingsLine,
-  RiBardLine,
+  RiChatAiLine,
 } from "@remixicon/react";
 
 const data = {
@@ -28,21 +26,23 @@ const data = {
     email: "m@example.com",
     avatar: "/avatars/shadcn.jpg",
   },
+  documents: [
+    {
+      name: "Home",
+      url: "/",
+      icon: RiChatAiLine,
+    },
+  ],
   navMain: [
     {
-      title: "Dashboard",
-      url: "/",
+      title: "Statistics",
+      url: "/statistics",
       icon: RiBarChartLine,
     },
     {
-      title: "Saved suppliers",
+      title: "Saved organizations",
       url: "/suppliers",
       icon: RiBox1Line,
-    },
-    {
-      title: "Saved buyers",
-      url: "/buyers",
-      icon: RiBuilding2Line,
     },
   ],
   navSecondary: [
@@ -55,18 +55,6 @@ const data = {
       title: "Get Help",
       url: "/help",
       icon: RiQuestionLine,
-    },
-  ],
-  documents: [
-    {
-      name: "AI Sourcing agent",
-      url: "/ai-sourcing-agent",
-      icon: RiBardLine,
-    },
-    {
-      name: "Integrations",
-      url: "/integrations",
-      icon: RiApps2Line,
     },
   ],
 };
@@ -82,16 +70,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
               <NavLink to="/">
-                <RiBardLine className="size-12" />
-                <span className="text-base font-semibold">Sourcing Agent</span>
+                <img
+                  src="/logo.svg"
+                  className="h-[25px] object-contain"
+                  alt=""
+                />
               </NavLink>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent className="pt-2">
+      <SidebarContent className="pt-2 gap-0">
+        <NavDocuments />
         <NavMain items={data.navMain} />
-        <NavDocuments items={data.documents} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
     </Sidebar>

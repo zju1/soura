@@ -1,4 +1,5 @@
 import BuyersLeadsDatabase from "@/features/BuyersPage";
+import { ChatHistoryPage } from "@/features/ChatHistoryPage";
 import Dashboard from "@/features/Dashboard";
 import { HelpPage } from "@/features/HelpPage";
 import { IntegrationsPage } from "@/features/IntegrationsPage";
@@ -8,12 +9,11 @@ import { SearchLayout } from "@/features/search/SearchLayout";
 import { SearchPage } from "@/features/search/SearchPage";
 import { SettingsPage } from "@/features/SettingsPage";
 import SourcingAgent from "@/features/SourcingAgent";
-import { SourcingQuery } from "@/features/SourcingChat";
+import { SourcingChat } from "@/features/SourcingChat";
 import SupplierDatabase from "@/features/SuppliersPage";
 import SupplierView from "@/features/SupplierView";
 import { Layout } from "@/layout/Layout";
-import { AnimatePresence } from "framer-motion";
-import { createBrowserRouter, Outlet } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 
 export const router = createBrowserRouter([
   {
@@ -21,7 +21,19 @@ export const router = createBrowserRouter([
     element: <Layout />,
     children: [
       {
-        index: true,
+        path: "/",
+        element: <SourcingAgent />,
+      },
+      {
+        path: "/c/:chatId",
+        element: <SourcingChat />,
+      },
+      {
+        path: "/history",
+        element: <ChatHistoryPage />,
+      },
+      {
+        path: "/statistics",
         element: <Dashboard />,
       },
       {
@@ -48,24 +60,6 @@ export const router = createBrowserRouter([
         path: "/help",
         element: <HelpPage />,
       },
-      {
-        path: "/ai-sourcing-agent",
-        element: (
-          <AnimatePresence mode="wait">
-            <Outlet />
-          </AnimatePresence>
-        ),
-        children: [
-          {
-            index: true,
-            element: <SourcingAgent />,
-          },
-          {
-            path: "query",
-            element: <SourcingQuery />,
-          },
-        ],
-      },
 
       {
         path: "/search",
@@ -84,7 +78,7 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: "/login",
+    path: "/auth",
     element: <LoginPage />,
   },
 ]);

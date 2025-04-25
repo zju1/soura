@@ -5,8 +5,10 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { NavLink, useNavigate } from "react-router-dom";
-import { RiSearchLine, type RemixiconComponentType } from "@remixicon/react";
+import { NavLink /* useNavigate */ } from "react-router-dom";
+import {
+  /* RiSearchLine ,*/ type RemixiconComponentType,
+} from "@remixicon/react";
 
 export function NavMain({
   items,
@@ -17,12 +19,12 @@ export function NavMain({
     icon?: RemixiconComponentType;
   }[];
 }) {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   return (
-    <SidebarGroup>
+    <SidebarGroup className="pt-0">
       <SidebarGroupContent className="flex flex-col gap-2">
-        <SidebarMenu>
+        {/* <SidebarMenu>
           <SidebarMenuItem className="flex items-center gap-2">
             <SidebarMenuButton
               onClick={() => navigate("/search")}
@@ -33,7 +35,7 @@ export function NavMain({
               <span>Search</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
-        </SidebarMenu>
+        </SidebarMenu> */}
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>

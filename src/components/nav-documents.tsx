@@ -2,40 +2,69 @@
 
 import {
   SidebarGroup,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import { NavLink } from "react-router-dom";
-import type { RemixiconComponentType } from "@remixicon/react";
+import { RiChatAiLine, RiHistoryLine } from "@remixicon/react";
+import { useGetChatsQuery } from "@/app/store/services/chat.service";
 
-export function NavDocuments({
-  items,
-}: {
-  items: {
-    name: string;
-    url: string;
-    icon: RemixiconComponentType;
-  }[];
-}) {
+export function NavDocuments() {
+  const { data } = useGetChatsQuery();
+
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel>Products</SidebarGroupLabel>
       <SidebarMenu>
-        {items.map((item) => (
-          <SidebarMenuItem key={item.name}>
-            <SidebarMenuButton asChild>
-              <NavLink
-                to={item.url}
-                className="!rounded-full  aria-[current=page]:font-semibold"
-              >
-                <item.icon />
-                <span>{item.name}</span>
-              </NavLink>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        ))}
+        <SidebarMenuItem>
+          <SidebarMenuButton asChild>
+            <NavLink
+              to="/"
+              className="!rounded-full  aria-[current=page]:font-semibold"
+            >
+              <RiChatAiLine />
+              <span>Home</span>
+            </NavLink>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+        <SidebarMenuItem>
+          <SidebarMenuButton asChild>
+            <NavLink
+              to="/history"
+              className="!rounded-full  aria-[current=page]:font-semibold"
+            >
+              <RiHistoryLine />
+              <span>History</span>
+            </NavLink>
+          </SidebarMenuButton>
+          <SidebarMenuSub>
+            {(data || []).slice(0, 5)?.map((chat) => (
+              <SidebarMenuSubItem key={chat._id}>
+                <SidebarMenuSubButton asChild>
+                  <NavLink
+                    to={`/c/${chat._id}`}
+                    className="!rounded-full  aria-[current=page]:font-semibold"
+                  >
+                    <span>{chat.title}</span>
+                  </NavLink>
+                </SidebarMenuSubButton>
+              </SidebarMenuSubItem>
+            ))}
+            <SidebarMenuSubItem>
+              <SidebarMenuSubButton asChild>
+                <NavLink
+                  to={`/history`}
+                  className="!rounded-full  font-semibold underline"
+                >
+                  View all
+                </NavLink>
+              </SidebarMenuSubButton>
+            </SidebarMenuSubItem>
+          </SidebarMenuSub>
+        </SidebarMenuItem>
       </SidebarMenu>
     </SidebarGroup>
   );
