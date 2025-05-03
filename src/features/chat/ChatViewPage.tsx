@@ -18,7 +18,9 @@ export function ChatViewPage() {
         </div>
       )}
       <div className="grid h-full grid-rows-[1fr_auto] max-w-3xl mx-auto w-full">
-        <div className="py-4"></div>
+        <div className="py-4">
+          <pre className="hidden">{JSON.stringify(data, null, 2)}</pre>
+        </div>
         <div className="py-4">
           <ChatComposer />
         </div>
