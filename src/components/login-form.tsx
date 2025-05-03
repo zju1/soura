@@ -1,8 +1,4 @@
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useSigninMutation } from "@/app/store/services/auth.service";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
@@ -10,14 +6,11 @@ import { useAppDispatch } from "@/app/store/store.config";
 import { setToken } from "@/app/store/slices/auth.slice";
 import { useTranslation } from "react-i18next";
 import { Navigate } from "react-router-dom";
+import { Button, Form, Input } from "antd";
+import type { LoginDTO } from "@/features/auth/AuthPage";
 
-export function LoginForm({
-  className,
-  ...props
-}: React.ComponentPropsWithoutRef<"form">) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
+export function LoginForm() {
+  const [form] = Form.useForm<LoginDTO>();
   const { access_token } = useAuth();
 
   const { toast } = useToast();
@@ -28,81 +21,85 @@ export function LoginForm({
 
   const { t } = useTranslation();
 
-  const onSubmit = useCallback(async () => {
-    try {
-      const response = await signin({
-        password,
-        username,
-      }).unwrap();
-      dispatch(setToken(response.accessToken));
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: t("error"),
-        description: t("invalidCredentials"),
-      });
-      console.log(error);
-    }
-  }, [signin, password, username, dispatch, toast, t]);
+  const onSubmit = useCallback(
+    async (values: LoginDTO) => {
+      try {
+        const response = await signin(values).unwrap();
+        dispatch(setToken(response.accessToken));
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: t("error"),
+          description: t("invalidCredentials"),
+        });
+        console.log(error);
+      }
+    },
+    [signin, dispatch, toast, t]
+  );
 
   return access_token ? (
     <Navigate to="/" />
   ) : (
-    <form
-      className={cn("flex flex-col gap-6", className)}
-      {...props}
-      onSubmit={(event) => {
-        event.preventDefault();
-        onSubmit();
-      }}
-    >
-      <div className="flex flex-col items-center gap-0 text-center">
-        <h1 className="text-2xl font-bold font-sans text-stone-700">
-          Login with an account
-        </h1>
-        <p className="text-balance text-sm text-stone-400">
-          Enter your username below to login to your account
-        </p>
-      </div>
-      <div className="grid gap-6">
-        <div className="grid gap-2">
-          <Label htmlFor="username">Username</Label>
-          <Input
-            id="username"
-            type="username"
-            placeholder="username"
-            required
-            value={username}
-            onChange={(event) => setUsername(event.target.value)}
-          />
-        </div>
-        <div className="grid gap-2">
-          <div className="flex items-center">
-            <Label htmlFor="password">Password</Label>
+    <div className="grid max-w-md mx-auto px-6 lg:px-0 py-6">
+      <div className="flex flex-col justify-center h-full">
+        <Form<LoginDTO>
+          form={form}
+          autoComplete="off"
+          onFinish={onSubmit}
+          className="grid gap-12"
+          layout="vertical"
+        >
+          <img src="/logo.svg" className="h-10 mb-6" />
+          <div className="grid gap-8">
+            <div className="grid gap-2">
+              <h1 className="font-bold text-2xl font-grotesk">
+                Sign in to your account
+              </h1>
+              <p className="text-sm font-[450] text-gray-500 pr-8 font-sans">
+                Not a member yet?{" "}
+                <a href="#" className="underline">
+                  Sign up now
+                </a>{" "}
+                and grow rapidly on your business
+              </p>
+            </div>
+            <div className="grid gap-12">
+              <div className="grid gap-6">
+                <Form.Item
+                  name="username"
+                  label="Username"
+                  rules={[{ required: true, message: "Enter username" }]}
+                >
+                  <Input autoComplete="off" size="large" />
+                </Form.Item>
+                <Form.Item
+                  name="password"
+                  label="Password"
+                  rules={[{ required: true, message: "Enter password" }]}
+                >
+                  <Input autoComplete="off" size="large" type="password" />
+                </Form.Item>
+              </div>
+              <Button
+                loading={isLoading}
+                htmlType="submit"
+                type="primary"
+                size="large"
+              >
+                Sign in
+              </Button>
+            </div>
+            <div>
+              <p className="text-sm text-gray-400 text-center">
+                By signing in to your Atlas account you agree to{" "}
+                <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>{" "}
+                of Atlas
+              </p>
+            </div>
           </div>
-          <Input
-            id="password"
-            type="password"
-            required
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-          />
-        </div>
-        <Button disabled={isLoading} type="submit" className="w-full mt-4">
-          Login
-        </Button>
-        {/* Terms agree links and reminder like by clicking login you agree etc.*/}
-        <p className="text-sm text-stone-500 text-center">
-          By clicking login, you agree to our{" "}
-          <a href="#" className="text-stone-700 underline font-semibold">
-            Terms of Service
-          </a>{" "}
-          and{" "}
-          <a href="#" className="text-stone-700 underline font-semibold">
-            Privacy Policy
-          </a>
-        </p>
+        </Form>
       </div>
-    </form>
+    </div>
   );
 }

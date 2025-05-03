@@ -1,19 +1,15 @@
-import BuyersLeadsDatabase from "@/features/BuyersPage";
-import { ChatHistoryPage } from "@/features/ChatHistoryPage";
-import Dashboard from "@/features/Dashboard";
-import { HelpPage } from "@/features/HelpPage";
-import { IntegrationsPage } from "@/features/IntegrationsPage";
-import { LoginPage } from "@/features/LoginPage";
-import { ResultsPage } from "@/features/search/ResultsPage";
-import { SearchLayout } from "@/features/search/SearchLayout";
-import { SearchPage } from "@/features/search/SearchPage";
-import { SettingsPage } from "@/features/SettingsPage";
-import SourcingAgent from "@/features/SourcingAgent";
-import { SourcingChat } from "@/features/SourcingChat";
-import SupplierDatabase from "@/features/SuppliersPage";
-import SupplierView from "@/features/SupplierView";
-import { Layout } from "@/layout/Layout";
 import { createBrowserRouter } from "react-router-dom";
+import { Layout } from "@/layout/Layout";
+
+import { HomePage } from "@/features/HomePage";
+import { ChatHistoryPage } from "@/features/chat/ChatHistoryPage";
+import { SettingsPage } from "@/features/settings/SettingsPage";
+import { ChatViewPage } from "@/features/chat/ChatViewPage";
+import { AuthPage } from "@/features/auth/AuthPage";
+import { OrganizationViewPage } from "@/features/organizations/OrganizationViewPage";
+import { OrganizationsPage } from "@/features/organizations/OrganizationsPage";
+import { OrganizationFormPage } from "@/features/organizations/OrganizationFormPage";
+import { AlertsPage } from "@/features/alerts/AlertsPage";
 
 export const router = createBrowserRouter([
   {
@@ -22,63 +18,40 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <SourcingAgent />,
+        element: <HomePage />,
       },
       {
         path: "/c/:chatId",
-        element: <SourcingChat />,
+        element: <ChatViewPage />,
       },
       {
         path: "/history",
         element: <ChatHistoryPage />,
       },
       {
-        path: "/statistics",
-        element: <Dashboard />,
+        path: "/organizations",
+        element: <OrganizationsPage />,
       },
       {
-        path: "/suppliers",
-        element: <SupplierDatabase />,
+        path: "/organizations/form",
+        element: <OrganizationFormPage />,
       },
       {
-        path: "/suppliers/:id",
-        element: <SupplierView />,
-      },
-      {
-        path: "/buyers",
-        element: <BuyersLeadsDatabase />,
+        path: "/organizations/view/:id",
+        element: <OrganizationViewPage />,
       },
       {
         path: "/settings",
         element: <SettingsPage />,
       },
       {
-        path: "/integrations",
-        element: <IntegrationsPage />,
-      },
-      {
-        path: "/help",
-        element: <HelpPage />,
-      },
-
-      {
-        path: "/search",
-        element: <SearchLayout />,
-        children: [
-          {
-            index: true,
-            element: <SearchPage />,
-          },
-          {
-            path: "result",
-            element: <ResultsPage />,
-          },
-        ],
+        path: "/alerts",
+        element: <AlertsPage />,
       },
     ],
   },
   {
     path: "/auth",
-    element: <LoginPage />,
+    element: <AuthPage />,
   },
 ]);

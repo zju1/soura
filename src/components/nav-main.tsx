@@ -4,11 +4,13 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
-import { NavLink /* useNavigate */ } from "react-router-dom";
-import {
-  /* RiSearchLine ,*/ type RemixiconComponentType,
-} from "@remixicon/react";
+import { NavLink } from "react-router-dom";
+import { type LucideIcon } from "lucide-react";
+import type { RemixiconComponentType } from "@remixicon/react";
 
 export function NavMain({
   items,
@@ -16,38 +18,44 @@ export function NavMain({
   items: {
     title: string;
     url: string;
-    icon?: RemixiconComponentType;
+    icon: LucideIcon | RemixiconComponentType;
+    children?: {
+      title: string;
+      url: string;
+    }[];
   }[];
 }) {
-  // const navigate = useNavigate();
-
   return (
-    <SidebarGroup className="pt-0">
+    <SidebarGroup className="pt-0 pb-0 mb-0">
       <SidebarGroupContent className="flex flex-col gap-2">
-        {/* <SidebarMenu>
-          <SidebarMenuItem className="flex items-center gap-2">
-            <SidebarMenuButton
-              onClick={() => navigate("/search")}
-              tooltip="Search"
-              className="!text-stone-600 font-semibold border border-stone-300 duration-200 ease-linear bg-white text-center justify-center"
-            >
-              <RiSearchLine />
-              <span>Search</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu> */}
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton tooltip={item.title} asChild>
                 <NavLink
                   to={item.url}
-                  className="!rounded-full aria-[current=page]:font-semibold"
+                  className="!rounded-full aria-[current=page]:text-black text-gray-500 font-medium block py-[18px] text-[16px] font-grotesk"
                 >
-                  {item.icon && <item.icon />}
+                  <item.icon className="!size-5" />
                   <span>{item.title}</span>
                 </NavLink>
               </SidebarMenuButton>
+              {item.children && item.children.length > 0 && (
+                <SidebarMenuSub>
+                  {(item.children || []).slice(0, 5)?.map((subItem) => (
+                    <SidebarMenuSubItem key={subItem.url}>
+                      <SidebarMenuSubButton asChild>
+                        <NavLink
+                          to={subItem.url}
+                          className="!rounded-full aria-[current=page]:text-black text-stone-600 font-normal block py-[18px] text-[16px] font-grotesk"
+                        >
+                          <span>{subItem.title}</span>
+                        </NavLink>
+                      </SidebarMenuSubButton>
+                    </SidebarMenuSubItem>
+                  ))}
+                </SidebarMenuSub>
+              )}
             </SidebarMenuItem>
           ))}
         </SidebarMenu>

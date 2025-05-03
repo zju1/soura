@@ -1,4 +1,4 @@
-import type { AuthUser } from "@/features/LoginPage";
+import type { AuthUser } from "@/features/auth/AuthPage";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface IAuthSlice {

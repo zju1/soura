@@ -9,7 +9,7 @@ export function Layout() {
     <AuthGuard>
       <SidebarProvider>
         <AppSidebar variant="inset" />
-        <SidebarInset className="h-[calc(100dvh-1rem)] grid grid-rows-[auto_1fr] overflow-hidden">
+        <SidebarInset className="h-[calc(100dvh-1rem)] bg-white grid grid-rows-[auto_1fr] overflow-hidden">
           <SiteHeader />
           <div
             className="overflow-auto"

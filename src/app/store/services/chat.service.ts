@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { RootState } from "../store.config";
 import { envVariables } from "@/config/env";
-import type { IChat, SingleMessage } from "@/features/SourcingChat";
+import type { Chat } from "@/features/HomePage";
 
 export const chatApi = createApi({
   reducerPath: "chatApi",
@@ -19,10 +19,11 @@ export const chatApi = createApi({
   }),
   tagTypes: ["CHATS", "MESSAGES"],
   endpoints: (builder) => ({
-    getChats: builder.query<IChat[], void>({
+    getChats: builder.query<Chat[], void>({
       query: () => ({
         url: "chat",
       }),
+      providesTags: ["CHATS"],
     }),
     createChat: builder.mutation<{ _id: string }, { title: string }>({
       query: (body) => ({
@@ -32,7 +33,7 @@ export const chatApi = createApi({
       }),
       invalidatesTags: ["CHATS"],
     }),
-    getMessagesByChatId: builder.query<SingleMessage[], string>({
+    getMessagesByChatId: builder.query<any[], string>({
       query: (chatId) => ({
         url: `chat/message/${chatId}`,
       }),

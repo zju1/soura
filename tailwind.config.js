@@ -6,16 +6,9 @@ export default {
     extend: {
       fontFamily: {
         sans: ["Inter Variable", "sans-serif"],
-      },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        grotesk: ["Space Grotesk", "sans-serif"],
       },
       colors: {
-        stone: {
-          200: "#F3F3EE",
-        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
@@ -25,6 +18,19 @@ export default {
           "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
+        },
+        brand: {
+          50: "#f5f5f5",
+          100: "#e5e5e5",
+          200: "#cccccc",
+          300: "#999999",
+          400: "#666666",
+          500: "#333333",
+          600: "#1f1f1f", // near-black
+          700: "#141414", // true dark
+          800: "#0a0a0a",
+          900: "#000000", // absolute black
+          main: "#1f1f1f",
         },
       },
       keyframes: {

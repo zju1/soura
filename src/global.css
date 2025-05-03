@@ -18,7 +18,7 @@
 /* Formatting table within ai-content class, using static css colors, not variables */
 
 .ai-content *:not(pre) {
-  font-family: "Inter Variable", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
 }
 
 .ai-content li:has(table) {
@@ -52,11 +52,11 @@
 
 .ai-content th {
   background-color: #eaeaea;
-  font: 500 14px "Inter Variable", sans-serif;
+  font: 500 14px "Space Grotesk", sans-serif;
 }
 
 .ai-content td {
-  font: 400 14px "Inter Variable", sans-serif;
+  font: 400 14px "Space Grotesk", sans-serif;
 }
 
 .ai-content tr:nth-child(even) {
@@ -78,4 +78,117 @@
 
 .ai-content ol > li {
   padding: 12px 0;
+}
+
+/* Disable input type number arrows */
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.ant-form-item {
+  margin-bottom: 0;
+}
+
+.ant-table-wrapper,
+.ant-spin-nested-loading,
+.ant-spin-container,
+.ant-table,
+.ant-table-container {
+  max-width: 100%;
+  display: grid;
+}
+
+.ant-modal-content:has(.ant-modal-confirm-body-wrapper) {
+  padding: 0;
+  overflow: hidden;
+
+  .ant-modal-confirm-body-has-title {
+    padding: 16px;
+    gap: 0 !important;
+    margin: 0 !important;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .anticon {
+    display: none;
+  }
+
+  .ant-modal-confirm-paragraph {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    .ant-modal-confirm-title {
+      font: 700 20px "Space Grotesk", sans-serif;
+      text-align: center;
+      margin: 0;
+    }
+
+    .ant-modal-confirm-content {
+      font: 400 14px "Space Grotesk", sans-serif;
+      text-align: center;
+      margin: 0;
+    }
+  }
+
+  .ant-modal-confirm-btns {
+    margin-top: 0;
+    gap: 0;
+    background: #fff;
+    display: flex;
+    gap: 1px;
+    font-family: "Space Grotesk", sans-serif;
+    padding: 12px;
+
+    button {
+      flex: 1;
+    }
+  }
+}
+
+.ant-modal-wrap:has(.ant-modal-confirm) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.ant-modal-confirm {
+  position: static;
+  margin: 0;
+  max-width: 350px;
+}
+
+.ant-upload-list-item {
+  display: grid !important;
+  grid-template-columns: auto 1fr auto;
+}
+
+.ant-col.ant-form-item-label {
+  padding-bottom: 2px !important;
+}
+
+/* Hide scrollbar of textarea */
+textarea::-webkit-scrollbar {
+  display: none;
+}
+
+textarea {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  resize: none;
 }
