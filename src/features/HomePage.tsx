@@ -11,7 +11,7 @@ export interface Chat {
 }
 
 export function HomePage() {
-  const [createChat, { isLoading }] = useCreateChatMutation();
+  const [createChat, { isLoading: chatLoading }] = useCreateChatMutation();
   const navigate = useNavigate();
 
   const suggestedQueries = [
@@ -45,7 +45,7 @@ export function HomePage() {
           What do we search today?
         </h1>
         <Composer
-          isLoading={isLoading}
+          isLoading={chatLoading}
           onSend={handleSearch}
           suggestedQueries={suggestedQueries}
         />

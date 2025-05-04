@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { RootState } from "../store.config";
 import { envVariables } from "@/config/env";
 import type { Chat } from "@/features/HomePage";
+import type { IMessage } from "@/features/chat/dto/chat.dto";
 
 export const chatApi = createApi({
   reducerPath: "chatApi",
@@ -33,13 +34,16 @@ export const chatApi = createApi({
       }),
       invalidatesTags: ["CHATS"],
     }),
-    getMessagesByChatId: builder.query<any[], string>({
+    getMessagesByChatId: builder.query<IMessage[], string>({
       query: (chatId) => ({
         url: `chat/message/${chatId}`,
       }),
       providesTags: ["MESSAGES"],
     }),
-    sendMessage: builder.mutation<any, { chatId: string; content: string }>({
+    sendMessage: builder.mutation<
+      IMessage,
+      { chatId: string; content: string }
+    >({
       query: (body) => ({
         url: `chat/message`,
         body,
@@ -62,5 +66,6 @@ export const {
   useDeleteChatMutation,
   useGetChatsQuery,
   useGetMessagesByChatIdQuery,
+  useLazyGetMessagesByChatIdQuery,
   useSendMessageMutation,
 } = chatApi;

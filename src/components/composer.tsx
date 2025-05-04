@@ -65,7 +65,7 @@ export function Composer({
           <Button
             type="button"
             size="icon"
-            disabled={query.length < 3 || isLoading}
+            disabled={query.length < 1 || isLoading}
             onClick={() => onSend(query)}
             className={`rounded-full h-9 w-9 bg-brand-main hover:bg-teal-700"`}
           >

@@ -100,7 +100,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent className="pt-2 gap-0">
         <div className="px-2 grid pb-4 pt-2">
-          <button className="bg-white rounded-full py-1.5 font-grotesk text-sm border-stone-200 border-[1.5px] font-medium flex justify-between items-center px-4">
+          <button
+            onClick={() => navigate("/")}
+            className="bg-white rounded-full py-1.5 font-grotesk text-sm border-stone-200 border-[1.5px] font-medium flex justify-between items-center px-4"
+          >
             <span>New chat</span>
             <div className="flex items-center justify-end gap-1">
               <kbd className="px-1  text-[10px] font-mono font-semibold text-gray-700 bg-gray-100 border border-gray-300 rounded">
