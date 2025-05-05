@@ -38,7 +38,7 @@ export function ChatComposer({
 
   return (
     <form
-      className="grid  border border-stone-600 rounded-3xl p-2 relative"
+      className="grid p-2 border border-stone-600 rounded-3xl  relative"
       onSubmit={(event) => {
         event.preventDefault();
         if (value.length > 1) {

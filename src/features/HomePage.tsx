@@ -28,11 +28,7 @@ export function HomePage() {
         const { _id } = await createChat({
           title: q,
         }).unwrap();
-        navigate(`/c/${_id}`, {
-          state: {
-            q,
-          },
-        });
+        navigate(`/c/${_id}?initialMessage=${q}`);
       }
     },
     [createChat, navigate]

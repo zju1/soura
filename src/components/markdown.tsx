@@ -31,7 +31,7 @@ const NonMemoizedMarkdown = ({ children }: { children: string }) => {
     },
     li: ({ node, children, ...props }: any) => {
       return (
-        <li className="py-1 flex" {...props}>
+        <li className="py-1 grid" {...props}>
           {children}
         </li>
       );

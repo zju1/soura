@@ -51,13 +51,13 @@ export function OrganizationsPage() {
   const [importOrgs, { isLoading }] = useImportOrganizationsMutation();
   const [params, setParams] = useSearchParams(
     new URLSearchParams({
-      activeType: "Companies",
+      activeType: "Buyers",
     })
   );
   const activeType = params.get("activeType");
 
   const filteredData = useMemo(() => {
-    if (activeType === "Companies") {
+    if (activeType === "Buyers") {
       return data?.filter((item) => item.type === "company");
     }
     if (activeType === "Suppliers") {
@@ -461,7 +461,7 @@ export function OrganizationsPage() {
             params.set("activeType", val!);
             setParams(params);
           }}
-          options={["Companies", "Suppliers", "Competitors"]}
+          options={["Buyers", "Suppliers", "Competitors"]}
         />
         <Table
           dataSource={filteredData || []}
