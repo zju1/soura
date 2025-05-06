@@ -1,0 +1,194 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+  :root {
+    --radius: 0.5rem;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+/* Formatting table within ai-content class, using static css colors, not variables */
+
+.ai-content *:not(pre) {
+  font-family: "Space Grotesk", sans-serif;
+}
+
+.ai-content li:has(table) {
+  max-width: 100%;
+  display: grid;
+  overflow-x: auto;
+
+  p {
+    position: sticky;
+    left: 0;
+  }
+}
+
+.ai-content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0 auto;
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin: 24px 0;
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
+  background: white;
+}
+.ai-content th,
+.ai-content td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid #eaeaea;
+  font-size: 14px;
+}
+
+.ai-content th {
+  background-color: #eaeaea;
+  font: 500 14px "Space Grotesk", sans-serif;
+}
+
+.ai-content td {
+  font: 400 14px "Space Grotesk", sans-serif;
+}
+
+.ai-content tr:nth-child(even) {
+  background-color: #eee;
+}
+
+.ai-content tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Formatting lists within ai-content class, using static css colors, not variables */
+
+.ai-content ul,
+.ai-content ol {
+  margin: 0;
+  padding: 0;
+  list-style-position: inside;
+}
+
+.ai-content ol > li {
+  padding: 12px 0;
+}
+
+/* Disable input type number arrows */
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.ant-form-item {
+  margin-bottom: 0;
+}
+
+.ant-table-wrapper,
+.ant-spin-nested-loading,
+.ant-spin-container,
+.ant-table,
+.ant-table-container {
+  max-width: 100%;
+  display: grid;
+}
+
+.ant-modal-content:has(.ant-modal-confirm-body-wrapper) {
+  padding: 0;
+  overflow: hidden;
+
+  .ant-modal-confirm-body-has-title {
+    padding: 16px;
+    gap: 0 !important;
+    margin: 0 !important;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .anticon {
+    display: none;
+  }
+
+  .ant-modal-confirm-paragraph {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    .ant-modal-confirm-title {
+      font: 700 20px "Space Grotesk", sans-serif;
+      text-align: center;
+      margin: 0;
+    }
+
+    .ant-modal-confirm-content {
+      font: 400 14px "Space Grotesk", sans-serif;
+      text-align: center;
+      margin: 0;
+    }
+  }
+
+  .ant-modal-confirm-btns {
+    margin-top: 0;
+    gap: 0;
+    background: #fff;
+    display: flex;
+    gap: 1px;
+    font-family: "Space Grotesk", sans-serif;
+    padding: 12px;
+
+    button {
+      flex: 1;
+    }
+  }
+}
+
+.ant-modal-wrap:has(.ant-modal-confirm) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.ant-modal-confirm {
+  position: static;
+  margin: 0;
+  max-width: 350px;
+}
+
+.ant-upload-list-item {
+  display: grid !important;
+  grid-template-columns: auto 1fr auto;
+}
+
+.ant-col.ant-form-item-label {
+  padding-bottom: 2px !important;
+}
+
+/* Hide scrollbar of textarea */
+textarea::-webkit-scrollbar {
+  display: none;
+}
+
+textarea {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  resize: none;
+}
