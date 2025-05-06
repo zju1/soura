@@ -1,35 +1,23 @@
-import { Markdown } from "@/components/markdown";
 import type { Message } from "@ai-sdk/react";
+import { RiSparklingFill } from "@remixicon/react";
+import { RenderPart } from "./RenderPart";
 
 export function AIMessage({ parts }: Message) {
   return (
-    <div className="flex justify-start">
-      <div className="font-grotesk leading-8 grid p-4 gap-4 bg-stone-200 rounded-2xl rounded-bl-none">
-        {parts?.map((part) => {
-          switch (part.type) {
-            case "text":
-              return <Markdown key={part.type}>{part.text}</Markdown>;
-            case "tool-invocation":
-              {
-                switch (part.toolInvocation.toolName) {
-                  case "supplierTool": {
-                    if (part.toolInvocation.state === "call") {
-                      return (
-                        <h1
-                          key={part.type}
-                          className="font-grotesk text-blue-600 animate-pulse"
-                        >
-                          Searching...
-                        </h1>
-                      );
-                    }
-                    return;
-                  }
-                }
-              }
-              return;
-          }
-        })}
+    <div className="flex justify-start gap-4 pr-8">
+      <div className="size-8 flex items-center justify-center border-stone-400 border rounded-full shrink-0">
+        <RiSparklingFill className="size-4" />
+      </div>
+      <div className="grid gap-4">
+        <div className="flex items-start gap-4">
+          <div className="font-grotesk leading-8 grid rounded-2xl text-sm rounded-bl-none">
+            {parts
+              ?.filter((item) => item.type !== "step-start")
+              .map((item) => (
+                <RenderPart {...item} key={item.type} />
+              ))}
+          </div>
+        </div>
       </div>
     </div>
   );

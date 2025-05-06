@@ -1,4 +1,4 @@
-import { RiSendPlane2Fill } from "@remixicon/react";
+import { RiArrowUpLine } from "@remixicon/react";
 import { useCallback, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 
@@ -38,7 +38,7 @@ export function ChatComposer({
 
   return (
     <form
-      className="grid p-2 border border-stone-600 rounded-3xl  relative"
+      className="grid border border-stone-300 bg-stone-100 rounded-xl  relative"
       onSubmit={(event) => {
         event.preventDefault();
         if (value.length > 1) {
@@ -49,8 +49,8 @@ export function ChatComposer({
     >
       <TextareaAutosize
         value={value}
-        minRows={1}
-        rows={1}
+        minRows={3}
+        rows={3}
         autoFocus
         maxRows={6}
         className="!outline-none pl-4 pr-16 py-2 !bg-transparent border-none shadow-none font-grotesk"
@@ -60,9 +60,9 @@ export function ChatComposer({
       />
       <button
         type="submit"
-        className="absolute right-1 top-1/2 -translate-y-1/2 size-12 flex bg-stone-800 text-white rounded-3xl items-center justify-center"
+        className="absolute right-2 bottom-2 size-8 flex bg-stone-800 text-white rounded-3xl items-center justify-center"
       >
-        <RiSendPlane2Fill className="size-6" />
+        <RiArrowUpLine className="size-6" />
       </button>
     </form>
   );

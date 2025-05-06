@@ -35,10 +35,11 @@ export function ChatViewPage() {
       const currentTool = message.parts?.find(
         (item) =>
           item.type === "tool-invocation" &&
-          item.toolInvocation.toolName === "supplierTool"
+          item.toolInvocation.toolName === "supplierFinder" &&
+          item.toolInvocation.state === "result"
       );
-
       if (currentTool) {
+        console.log((currentTool as any).toolInvocation.result);
         setBusinessData((currentTool as any).toolInvocation.result);
       }
       messagesRef.current?.scrollIntoView({
@@ -127,7 +128,7 @@ export function ChatViewPage() {
         title: "Country",
         dataIndex: "country",
         key: "country",
-        width: 100,
+        width: 150,
         filterSearch: true,
         filters: countries.map((item) => ({
           text: item.label,
@@ -140,7 +141,7 @@ export function ChatViewPage() {
         title: "Tax No",
         dataIndex: "taxNo",
         key: "taxNo",
-        width: 100,
+        width: 120,
       },
       {
         title: "Industry",
@@ -153,12 +154,7 @@ export function ChatViewPage() {
         dataIndex: "desc",
         key: "desc",
         width: 200,
-      },
-      {
-        title: "Address",
-        dataIndex: "address",
-        key: "address",
-        width: 200,
+        render: (value) => <p className="line-clamp-2">{value}</p>,
       },
       {
         title: "Address",
@@ -177,7 +173,7 @@ export function ChatViewPage() {
       }`}
     >
       <div className={`grid overflow-y-auto grid-rows-[1fr_auto]`}>
-        <div className="grid gap-8 p-8 max-w-4xl w-full mx-auto content-start">
+        <div className="p-4 grid gap-8 lg:py-8 lg:px-0 max-w-3xl w-full mx-auto content-start">
           {messages.map((item, index) =>
             item.role === "user" ? (
               <UserMessage key={`msg_${index}`} {...item} />
@@ -187,8 +183,8 @@ export function ChatViewPage() {
           )}
           <div ref={messagesRef} className="mt-48" />
         </div>
-        <div className="p-8 border-t  sticky bottom-0 bg-white">
-          <div className="max-w-4xl mx-auto  w-full">
+        <div className="p-4 pb-0 lg:pb-4 lg:px-0 lg:pt-8 sticky bottom-0 bg-gradient-to-b from-transparent to-white to-20%">
+          <div className="max-w-3xl mx-auto  w-full">
             <ChatComposer
               onSend={(newMessage) =>
                 append({
@@ -208,8 +204,9 @@ export function ChatViewPage() {
               id: `supplier_${index}`,
             }))}
             columns={columns}
+            bordered
             rowKey="id"
-            scroll={{ x: 1300, y: "100%" }}
+            scroll={{ x: 1100, y: "100%" }}
             pagination={false}
           />
         </div>
