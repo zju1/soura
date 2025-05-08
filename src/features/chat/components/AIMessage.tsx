@@ -14,7 +14,14 @@ export function AIMessage({ parts }: Message) {
             {parts
               ?.filter((item) => item.type !== "step-start")
               .map((item) => (
-                <RenderPart {...item} key={item.type} />
+                <RenderPart
+                  {...item}
+                  key={
+                    item.type === "tool-invocation"
+                      ? item.toolInvocation.toolCallId
+                      : item.type
+                  }
+                />
               ))}
           </div>
         </div>

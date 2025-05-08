@@ -33,6 +33,17 @@ const NonMemoizedMarkdown = ({ children }: { children: string }) => {
         </h3>
       );
     },
+    a: ({ node, children, ...props }: any) => {
+      return (
+        <a
+          className="font-medium text-blue-700 leading-5 underline"
+          target="_blank"
+          {...props}
+        >
+          {children}
+        </a>
+      );
+    },
   };
 
   return (

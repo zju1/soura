@@ -117,7 +117,12 @@ export function ChatViewPage() {
             <h1 className="font-grotesk text-lg font-semibold">
               {record.name}
             </h1>
-            <a className="text-blue-500 font-grotesk font-medium">
+            <a
+              href={`${record.website}`}
+              target="_blank"
+              className="text-blue-500 font-grotesk font-medium"
+              rel="noopener noreferrer"
+            >
               {record.website}
             </a>
           </div>
@@ -135,13 +140,6 @@ export function ChatViewPage() {
           value: item.label,
         })),
         onFilter: (value, record) => record.country === value,
-      },
-
-      {
-        title: "Tax No",
-        dataIndex: "taxNo",
-        key: "taxNo",
-        width: 120,
       },
       {
         title: "Industry",
@@ -161,6 +159,7 @@ export function ChatViewPage() {
         dataIndex: "address",
         key: "address",
         width: 200,
+        render: (value) => <p className="line-clamp-2">{value}</p>,
       },
     ],
     []
