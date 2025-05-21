@@ -4,19 +4,21 @@ import remarkGfm from "remark-gfm";
 
 const NonMemoizedMarkdown = ({ children }: { children: string }) => {
   const components = {
-    ol: ({ node, children, ...props }: any) => {
+    ul: ({ node, children, ...props }: any) => {
       return (
-        <ol className="list-decimal list-inside ml-4" {...props}>
+        <ul className="pb-4" {...props}>
           {children}
-        </ol>
+        </ul>
       );
     },
+    ol: ({ node, children, ...props }: any) => {
+      return <ol {...props}>{children}</ol>;
+    },
+    p: ({ node, children, ...props }: any) => {
+      return <p {...props}>{children}</p>;
+    },
     li: ({ node, children, ...props }: any) => {
-      return (
-        <li className="py-1" {...props}>
-          {children}
-        </li>
-      );
+      return <li {...props}>{children}</li>;
     },
 
     strong: ({ node, children, ...props }: any) => {
@@ -28,7 +30,7 @@ const NonMemoizedMarkdown = ({ children }: { children: string }) => {
     },
     h3: ({ node, children, ...props }: any) => {
       return (
-        <h3 className="font-semibold text-xl leading-5" {...props}>
+        <h3 className="font-semibold text-xl leading-5 mb-4" {...props}>
           {children}
         </h3>
       );

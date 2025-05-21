@@ -1,3 +1,4 @@
+import { type UIMessage } from "ai";
 interface ImportExportStats {
   gk: string; // Statistical Interval
   weight_sum: number; // Kilogram Weight
@@ -37,9 +38,7 @@ export interface Business {
 
 export interface IMessage {
   chatId: string;
-  sender: "user" | "assistant" | "tool" | "system";
-  content: string;
-  data: Business[];
+  message: UIMessage;
   createdAt: string;
   _id: string;
 }
