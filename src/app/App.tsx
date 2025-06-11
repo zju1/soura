@@ -6,6 +6,11 @@ import { PersistGate } from "redux-persist/integration/react";
 import { Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { ConfigProvider } from "antd";
+import "handsontable/styles/handsontable.min.css";
+import "handsontable/styles/ht-theme-main.min.css";
+import { registerAllModules } from "handsontable/registry";
+
+registerAllModules();
 
 export function App() {
   return (
@@ -26,6 +31,10 @@ export function App() {
             Card: {
               colorBorderSecondary: "#eee",
               boxShadowSecondary: "0 2px 10px rgba(0,0,0,0.2)",
+            },
+            Table: {
+              rowSelectedBg: "#e5e5e5",
+              rowHoverBg: "#cccccc",
             },
             Button: {
               primaryShadow: "none",

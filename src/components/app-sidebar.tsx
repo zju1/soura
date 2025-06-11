@@ -4,6 +4,7 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -27,6 +28,7 @@ import {
   RiHomeFill,
   RiNotificationFill,
   RiSettings5Fill,
+  RiShoppingCart2Fill,
 } from "@remixicon/react";
 import { useHotkeys } from "react-hotkeys-hook";
 
@@ -78,6 +80,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     [chats]
   );
 
+  const productItems = React.useMemo(
+    () => [
+      {
+        title: "AI Procurement agent",
+        url: "/mary/search",
+        icon: RiShoppingCart2Fill,
+      },
+    ],
+    []
+  );
+
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -116,6 +129,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </button>
         </div>
         <NavMain items={navItems} />
+        <SidebarGroupLabel>Products</SidebarGroupLabel>
+        <NavMain items={productItems} />
       </SidebarContent>
       <SidebarFooter>
         <DropdownMenu>

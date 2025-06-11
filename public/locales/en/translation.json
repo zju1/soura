@@ -145,5 +145,7 @@
   "back": "Back",
   "ru": "Russian",
   "en": "English",
-  "kaa": "Karakalpak"
+  "kaa": "Karakalpak",
+  "completed": "Completed",
+  "draft": "Draft"
 }

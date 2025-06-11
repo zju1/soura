@@ -9,10 +9,12 @@ export function Composer({
   onSend,
   isLoading,
   suggestedQueries,
+  placeholder,
 }: {
   onSend: (value: string) => void;
   isLoading: boolean;
-  suggestedQueries: string[];
+  suggestedQueries?: string[];
+  placeholder?: string;
 }) {
   const [query, setQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
@@ -41,7 +43,7 @@ export function Composer({
   return (
     <div
       className={`bg-white border-stone-300 transition-all p-2 border ${
-        isFocused ? "rounded-t-3xl" : "rounded-3xl"
+        isFocused && suggestedQueries ? "rounded-t-3xl" : "rounded-3xl"
       }`}
     >
       <form
@@ -54,7 +56,7 @@ export function Composer({
         <Input
           ref={inputRef}
           autoFocus
-          placeholder={"Ask anything..."}
+          placeholder={placeholder || "Ask anything..."}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => setIsFocused(true)}
@@ -76,7 +78,7 @@ export function Composer({
             )}
           </Button>
         </div>
-        {isFocused && suggestedQueries?.length > 0 && (
+        {isFocused && suggestedQueries && suggestedQueries?.length > 0 && (
           <motion.div
             initial={{
               opacity: 0,

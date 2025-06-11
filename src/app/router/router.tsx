@@ -10,6 +10,9 @@ import { OrganizationViewPage } from "@/features/organizations/OrganizationViewP
 import { OrganizationsPage } from "@/features/organizations/OrganizationsPage";
 import { OrganizationFormPage } from "@/features/organizations/OrganizationFormPage";
 import { AlertsPage } from "@/features/alerts/AlertsPage";
+import { MaryLayout } from "@/layout/MaryLayout";
+import { MarySearchPage } from "@/features/agets/mary/search/MarySearchPage";
+import { MarySearchResultsPage } from "@/features/agets/mary/search/MarySearchResultsPage";
 
 export const router = createBrowserRouter([
   {
@@ -47,6 +50,20 @@ export const router = createBrowserRouter([
       {
         path: "/alerts",
         element: <AlertsPage />,
+      },
+    ],
+  },
+  {
+    path: "/mary",
+    element: <MaryLayout />,
+    children: [
+      {
+        path: "search",
+        element: <MarySearchPage />,
+      },
+      {
+        path: "search/:searchId",
+        element: <MarySearchResultsPage />,
       },
     ],
   },
