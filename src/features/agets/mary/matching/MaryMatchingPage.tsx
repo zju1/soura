@@ -2,10 +2,8 @@ import { Page } from "@/components/page";
 import { Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { useMemo } from "react";
-
 import { useParams } from "react-router-dom";
-
-import { mockVeridionResults } from "@/mock/mockVeridionResults";
+import { mockMaryMatching } from "@/mock/mockMaryMatching";
 
 export function MaryMatchingPage() {
   const { searchId } = useParams<{ searchId: string }>();
@@ -13,14 +11,16 @@ export function MaryMatchingPage() {
   const columns = useMemo<ColumnsType<any>>(() => [], []);
 
   return (
-    <Page title={searchId}>
+    <Page title={searchId ? `AI Matching: ${searchId}` : "AI Matching"}>
       <Table
-        dataSource={mockVeridionResults}
+        dataSource={mockMaryMatching.filter(
+          (row) => !searchId || row.searchId === searchId
+        )}
         bordered
         pagination={false}
-        rowSelection={{}}
-        columns={columns as any}
-        scroll={{ y: window.innerHeight * 0.75, x: 1600 }}
+        rowKey={(_row, idx) => String(idx)}
+        columns={columns}
+        scroll={{ y: window.innerHeight * 0.75, x: 1800 }}
       />
     </Page>
   );

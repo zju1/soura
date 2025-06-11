@@ -1,20 +1,26 @@
 import { Page } from "@/components/page";
-import { mockMarySearches } from "@/mock/mockMarySearch";
-import { Button, Modal, Table } from "antd";
+import { Button, Form, Input, Modal, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import type { SingleMarySearch } from "./mary-search.dto";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import moment from "moment";
-import { shortenRange } from "@/utils/millifyNumber";
 import { useTranslation } from "react-i18next";
-import { RiAddLine } from "@remixicon/react";
-import { Composer } from "@/components/composer";
+import { RiAddLine, RiSearchLine } from "@remixicon/react";
 import { useNavigate } from "react-router-dom";
+import {
+  useGetSearchesQuery,
+  useNewSearchMutation,
+} from "@/app/store/services/api.service";
+import { useTypewriterSuggestions } from "./useTypewriterSuggestions";
 
 export function MarySearchPage() {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const [create, { isLoading }] = useNewSearchMutation();
+
+  const { data, isFetching } = useGetSearchesQuery({});
+
   const columns: ColumnsType<SingleMarySearch> = useMemo(
     (): ColumnsType<SingleMarySearch> => [
       {
@@ -86,16 +92,6 @@ export function MarySearchPage() {
             .localeCompare(b.certRequirements.join(" ")),
       },
       {
-        title: "MOQ Range",
-        dataIndex: "moqRange",
-        width: 150,
-        key: "moqRange",
-        render: (value) => shortenRange(value),
-        align: "center",
-        sorter: (a, b) =>
-          a.moqRange.join(" ").localeCompare(b.moqRange.join(" ")),
-      },
-      {
         title: "Status",
         dataIndex: "status",
         width: 150,
@@ -108,6 +104,24 @@ export function MarySearchPage() {
     [t]
   );
 
+  const [form] = Form.useForm();
+
+  const handleSend = useCallback(
+    async (values: { prompt: string }) => {
+      try {
+        await create(values).unwrap();
+        form.resetFields();
+        setOpen(false);
+      } catch (error) {
+        console.log(error);
+        console.error("Failed to create search:", error);
+      }
+    },
+    [create, form]
+  );
+
+  const placeholder = useTypewriterSuggestions();
+
   return (
     <Page
       title="AI Search"
@@ -115,6 +129,7 @@ export function MarySearchPage() {
         <Button
           onClick={() => setOpen(true)}
           type="primary"
+          loading={isLoading}
           icon={<RiAddLine className="size-4 mt-1" />}
         >
           New search
@@ -122,11 +137,12 @@ export function MarySearchPage() {
       }
     >
       <Table
-        dataSource={mockMarySearches}
-        bordered
+        dataSource={data?.data}
+        loading={isFetching || isLoading}
         pagination={false}
         rowKey={(row) => row.searchId}
         rowSelection={{}}
+        bordered
         columns={columns}
         onRow={({ searchId }) => ({
           onClick: () => navigate(`/mary/search/${searchId}`),
@@ -139,15 +155,27 @@ export function MarySearchPage() {
         onCancel={() => setOpen(false)}
         title="New AI Search"
         destroyOnClose
-        classNames={{
-          content: "!rounded-3xl",
-        }}
       >
-        <Composer
-          isLoading={false}
-          onSend={console.log}
-          placeholder="Find wax suppliers in the US..."
-        />
+        <Form
+          form={form}
+          onFinish={handleSend}
+          layout="vertical"
+          className="mt-4"
+        >
+          <Form.Item name="prompt" rules={[{ required: true }]}>
+            <Input.TextArea placeholder={placeholder} rows={4} minLength={10} />
+          </Form.Item>
+          <Button
+            type="primary"
+            htmlType="submit"
+            loading={isLoading}
+            className="w-full mt-4"
+            icon={<RiSearchLine className="size-4" />}
+            size="large"
+          >
+            {t("search")}
+          </Button>
+        </Form>
       </Modal>
     </Page>
   );

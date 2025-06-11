@@ -13,6 +13,7 @@ import { AlertsPage } from "@/features/alerts/AlertsPage";
 import { MaryLayout } from "@/layout/MaryLayout";
 import { MarySearchPage } from "@/features/agets/mary/search/MarySearchPage";
 import { MarySearchResultsPage } from "@/features/agets/mary/search/MarySearchResultsPage";
+import { MaryMatchingPage } from "@/features/agets/mary/matching/MaryMatchingPage";
 
 export const router = createBrowserRouter([
   {
@@ -64,6 +65,14 @@ export const router = createBrowserRouter([
       {
         path: "search/:searchId",
         element: <MarySearchResultsPage />,
+      },
+      {
+        path: "matching",
+        element: <MaryMatchingPage />,
+      },
+      {
+        path: "matching/:searchId",
+        element: <MaryMatchingPage />,
       },
     ],
   },

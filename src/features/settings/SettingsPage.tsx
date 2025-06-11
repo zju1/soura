@@ -2,10 +2,12 @@ import { Tabs } from "antd";
 import { useSearchParams } from "react-router-dom";
 import { ProfileView } from "./components/profile/ProfileView";
 import { OrganizationView } from "./components/organization/OrganizationView";
+import { ProductCatalogPage } from "./components/product-catalog/ProductCatalogPage";
 
 const tabContent = {
   profile: <ProfileView />,
   "my-organization": <OrganizationView />,
+  "product-catalog": <ProductCatalogPage />,
 };
 
 export function SettingsPage() {
@@ -29,6 +31,10 @@ export function SettingsPage() {
           {
             label: "Profile",
             key: "profile",
+          },
+          {
+            label: "Product catalog",
+            key: "product-catalog",
           },
           {
             label: "My organization",

@@ -8,8 +8,36 @@ export interface SingleMarySearch {
   targetIndustry: string;
   material: string;
   certRequirements: string[];
-  moqRange: number[]; // 3K - 10K, 1K - 5K etc.
   leadTimeTarget: string; // > 15 days, < 12 days etc.
   owner: string;
   status: SingleMarySearchStatus;
+  materials: string[];
+  json: string;
+}
+
+export interface SingleCompany {
+  company_name: string;
+  company_type: string;
+  year_founded: number;
+  employee_count: {
+    value: number;
+    type: string;
+  };
+  revenue: {
+    value: number;
+    type: string;
+  };
+  main_industry: string;
+  main_sector: string;
+  short_description: string;
+  business_tags_extracted: string[];
+  primary_phone: string;
+  phone_numbers: string[];
+  linkedin_url: string;
+  website_domain: string;
+}
+
+export interface CompanySearchResult {
+  result: SingleCompany[];
+  count: number;
 }

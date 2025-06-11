@@ -34,7 +34,7 @@ export function App() {
             },
             Table: {
               rowSelectedBg: "#e5e5e5",
-              rowHoverBg: "#cccccc",
+              rowHoverBg: "#f5f5f5",
             },
             Button: {
               primaryShadow: "none",

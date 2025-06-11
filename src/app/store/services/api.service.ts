@@ -4,6 +4,8 @@ import { envVariables } from "@/config/env";
 import { SingleOrganization } from "@/features/organizations/dto/organization.dto";
 import type { RequestParamsType } from "@/@types";
 import type { SingleAlert } from "@/features/alerts/list/form/AlertForm";
+import type { SingleMarySearch } from "@/features/agets/mary/search/mary-search.dto";
+import type { ProductCatalog } from "@/features/settings/components/product-catalog/product-catalog.dto";
 
 export const api = createApi({
   reducerPath: "api",
@@ -19,7 +21,7 @@ export const api = createApi({
       return headers;
     },
   }),
-  tagTypes: ["ORGANIZATIONS", "ALERTS"],
+  tagTypes: ["ORGANIZATIONS", "ALERTS", "SEARCHES", "PRODUCT_CATALOG"],
   endpoints: (builder) => ({
     getOrganizations: builder.query<SingleOrganization[], RequestParamsType>({
       query: (params) => ({
@@ -112,6 +114,50 @@ export const api = createApi({
         url: `alerts/${id}`,
       }),
     }),
+
+    getSearches: builder.query<{ data: SingleMarySearch[] }, RequestParamsType>(
+      {
+        query: (params) => ({
+          params,
+          url: "/filter/search",
+        }),
+        providesTags: ["SEARCHES"],
+      }
+    ),
+
+    getSearchById: builder.query<{ data: SingleMarySearch }, string>({
+      query: (id) => ({
+        url: `/filter/search/${id}`,
+      }),
+      providesTags: ["SEARCHES"],
+    }),
+
+    newSearch: builder.mutation<unknown, { prompt: string }>({
+      query: (body) => ({
+        url: "/filter/generate",
+        body,
+        method: "POST",
+      }),
+      invalidatesTags: ["SEARCHES"],
+    }),
+
+    getProductCatalog: builder.query<ProductCatalog[], void>({
+      query: () => ({
+        url: "/product/catalog",
+      }),
+      providesTags: ["PRODUCT_CATALOG"],
+    }),
+    addItemToProductCatalog: builder.mutation<
+      { newProductCatalog: ProductCatalog[] },
+      FormData
+    >({
+      query: (body) => ({
+        url: "/product/catalog/import",
+        body,
+        method: "POST",
+      }),
+      invalidatesTags: ["PRODUCT_CATALOG"],
+    }),
   }),
 });
 
@@ -127,4 +173,10 @@ export const {
   useGetAlertsQuery,
   useUpdateAlertMutation,
   useDeleteAlertMutation,
+
+  useNewSearchMutation,
+  useGetSearchesQuery,
+  useGetSearchByIdQuery,
+  useGetProductCatalogQuery,
+  useAddItemToProductCatalogMutation,
 } = api;

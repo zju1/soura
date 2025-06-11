@@ -4,9 +4,14 @@ export function Page({
   title,
   children,
   extra,
-}: PropsWithChildren<{ title: ReactNode | string; extra?: ReactNode }>) {
+  disablePadding = false,
+}: PropsWithChildren<{
+  title: ReactNode | string;
+  extra?: ReactNode;
+  disablePadding?: boolean;
+}>) {
   return (
-    <div className="p-4 lg:p-6 grid gap-4">
+    <div className={disablePadding ? "grid gap-4" : "p-4 lg:p-6 grid gap-4"}>
       <div className="flex items-center justify-between">
         {typeof title === "string" ? (
           <h1 className="font-extrabold font-grotesk text-2xl">{title}</h1>
